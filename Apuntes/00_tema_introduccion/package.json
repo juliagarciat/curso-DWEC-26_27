@@ -1,0 +1,14 @@
+{
+  "name": "ejemplo",
+  "version": "1.0.0",
+  "description": "Ejemplo básico uso de JavaScript",
+  "main": "ejercicio1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lanzar": "node ejercicio1.js"
+  },
+  "keywords": [],
+  "author": "Julia GT",
+  "license": "ISC",
+  "type": "module"
+}

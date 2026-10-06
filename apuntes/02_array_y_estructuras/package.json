@@ -1,0 +1,11 @@
+{
+  "name": "02_array_y_estructuras",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "lanzar-relacion": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  }

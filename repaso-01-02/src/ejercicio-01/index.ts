@@ -1,0 +1,41 @@
+const lecturas = ['21.5', '19', '', '23.5', 'error', '20']
+
+function analizarLecturas(lecturas: string[]): {
+  validas: number
+  descartadas: number
+  media: string
+} {
+  let validas = 0
+  let descartadas = 0
+  let suma = 0
+
+  for (const lectura of lecturas) {
+    if (lectura.trim() === '') {
+      descartadas++
+      continue
+    }
+
+    const valor = Number(lectura)
+
+    if (Number.isFinite(valor)) {
+      validas++
+      suma += valor
+      const etiqueta = valor >= 22 ? 'Caluroso' : 'Fresco'
+      console.log(`Lectura: ${valor} -> ${etiqueta}`)
+    } else {
+      descartadas++
+    }
+  }
+
+  const mediaCalculada = validas > 0 ? (suma / validas) : 'Sin datos'
+
+  return {
+    validas,
+    descartadas,
+    media: mediaCalculada
+  }
+}
+
+export function ejercicio01(): void {
+  console.log(analizarLecturas(lecturas))
+}

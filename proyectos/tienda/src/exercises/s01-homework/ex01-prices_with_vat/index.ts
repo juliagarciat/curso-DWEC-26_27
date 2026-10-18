@@ -12,6 +12,8 @@ import type { Product } from "../../../types/product";
 * */
 const VAT = 0.21
 export function pricesWithVat(myProducts: Product[]): number[] {
+
   return myProducts.map(product => Math.round(product.price * (1 + VAT)))
+
 }
 

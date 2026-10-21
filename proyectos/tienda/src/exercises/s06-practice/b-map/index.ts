@@ -32,6 +32,14 @@ export function titlesByAuthor(books: Book[]): Map<string, string[]> {
   const map = new Map<string, string[]>();
   for (const book of books) {
     const current = map.get(book.author) ?? [];
+    map.set(book.author, [...current, book.title]);
   }
   return map;
+}
+
+
+// B4 · Capitales
+export function capitalOf(capitals: ReadonlyMap<string, string>, country: string): string {
+  const capital = capitals.get(country);
+  return capital ? `La capital de ${country} es: ${capital}` : `No conozco ${country}`;
 }

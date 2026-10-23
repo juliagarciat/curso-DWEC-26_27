@@ -1,60 +1,43 @@
-import './style.css'
-import heroImg from './assets/hero.png'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.ts'
+import { students } from "./services/students"
+import { average, isPassed } from "./utils/grades"
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
 
-<div class="ticks"></div>
+// const averageText = document.getElementById("average");
+const averageText = document.querySelector("#average") // <-- busca
+const listU = document.querySelector("#student-list")
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+if (!(averageText instanceof HTMLParagraphElement)) { // <-- comprueba
+  throw new Error("Falta un parrafo con id average")
+}
+
+if (!(listU instanceof HTMLUListElement)) {
+  throw new Error("Falta la etiqueta <ul>")
+}
+
+averageText.textContent = `Media: ${average(students).toFixed(2)}` // <-- modifica
+
+for (const student of students) {
+  const item = document.createElement("li");
+  item.textContent = `Estudiante: ${student.name} --- Nota: ${student.grade}`
+  item.style.color = isPassed(student) ? "green" : "red"
+  listU.appendChild(item);
+}
+
+//crear un input que busque el nombre de un alumno y que me devuelva la nota
+// <-- input de busqueda
+const inputSearch = document.createElement("input");
+inputSearch.type = "text"
+inputSearch.placeholder = "Escriba nombre para buscar"
+inputSearch.style.backgroundColor = "gray"
+averageText.appendChild(inputSearch)
+
+// <-- boton de enviar la busqueda
+const btnSearch = document.createElement("button")
+btnSearch.textContent = "🔎 Buscar"
+averageText.appendChild(btnSearch)
+
+
+
+

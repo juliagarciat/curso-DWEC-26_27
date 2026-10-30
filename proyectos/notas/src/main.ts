@@ -1,43 +1,24 @@
-import { students } from "./services/students"
-import { average, isPassed } from "./utils/grades"
+import { getElement } from "./components/dom";
+import { products } from "./services/products";
 
 
-// const averageText = document.getElementById("average");
-const averageText = document.querySelector("#average") // <-- busca
-const listU = document.querySelector("#student-list")
+//const title = getElement("h1", HTMLHeadingElement)
 
+const h1Product = document.createElement("h1")
+h1Product.classList.add("h1Product")
+h1Product.textContent = "Producto";
+const divProducts = getElement("#products", HTMLDivElement)
 
+divProducts.append(h1Product)
 
-if (!(averageText instanceof HTMLParagraphElement)) { // <-- comprueba
-  throw new Error("Falta un parrafo con id average")
+// un li con todos los productos que tengo
+//
+
+const ulProducts = document.createElement("ul")
+
+for (const product of products) {
+  const item = document.createElement("li")
+  item.textContent = `Producto: ${product.name} | Precio: ${product.price} | Stock: ${product.stock}`
+  ulProducts.appendChild(item)
 }
-
-if (!(listU instanceof HTMLUListElement)) {
-  throw new Error("Falta la etiqueta <ul>")
-}
-
-averageText.textContent = `Media: ${average(students).toFixed(2)}` // <-- modifica
-
-for (const student of students) {
-  const item = document.createElement("li");
-  item.textContent = `Estudiante: ${student.name} --- Nota: ${student.grade}`
-  item.style.color = isPassed(student) ? "green" : "red"
-  listU.appendChild(item);
-}
-
-//crear un input que busque el nombre de un alumno y que me devuelva la nota
-// <-- input de busqueda
-const inputSearch = document.createElement("input");
-inputSearch.type = "text"
-inputSearch.placeholder = "Escriba nombre para buscar"
-inputSearch.style.backgroundColor = "gray"
-averageText.appendChild(inputSearch)
-
-// <-- boton de enviar la busqueda
-const btnSearch = document.createElement("button")
-btnSearch.textContent = "🔎 Buscar"
-averageText.appendChild(btnSearch)
-
-
-
-
+divProducts.append(ulProducts)

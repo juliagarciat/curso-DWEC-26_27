@@ -33,3 +33,43 @@
 .total {
   font-size: 25px;
 }
+
+.title {
+  font-size: 30px;
+  font-weight: 10;
+  text-decoration: underline;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 5;
+}
+
+.hr {
+  border: none;
+  border-top: 2px dashed #95a5a6;
+  margin: 20px 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #222;
+  margin: 15px 0;
+}
+
+/* Bordes finos y grises para toda la tabla */
+.table th,
+.table td {
+  border: 1px solid #cccccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+/* Encabezado con un fondo gris claro neutral */
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}

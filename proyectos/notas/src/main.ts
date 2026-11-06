@@ -23,6 +23,7 @@ import { createHr } from "./components/hrComponent";
 const app = getElement("#students", HTMLDivElement)
 
 // ----- Version 1 -----
+app.append(createHr(["hr"]))
 app.append(createTextSpan("Parte Estudiantes", ["title"]))
 app.append(createHr(["hr"]))
 app.append(createTextSpan("Version 1.0", ["subtitle"]))
@@ -88,6 +89,15 @@ if (input3 instanceof HTMLInputElement) {
 }
 
 
+// ----- PRODUCTOS -----
+const appProducts = getElement("#products", HTMLDivElement)
+appProducts.append(createHr(["hr"]))
+appProducts.append(createTextSpan("Parte productos", ["title"]))
+appProducts.append(createHr(["hr"]))
+
+
+// Version 1
+appProducts.append(createTextSpan("Version 1.0", ["subtitle"]))
 
 
 

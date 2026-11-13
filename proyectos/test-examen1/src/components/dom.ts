@@ -1,47 +1,59 @@
-import type { Product } from "../types/product"
+import type { Product } from "../types/product";
 
 // funcion que comprueba si existe y es del tipo pedido
 export function getElement<T extends Element>(selector: string, type: new () => T): T {
-  const element = document.querySelector(selector)
+  const element = document.querySelector(selector);
   if (!(element instanceof type)) {
-    throw new Error("Error en el selector de tipos")
+    throw new Error("Error en el selector de tipos");
   }
-  return element
+  return element;
 }
 
 // · Componente-1: recibe un texto y devuelve un <h1>
 export function createTitle(text: string): HTMLHeadingElement {
-  const title = document.createElement("h1")
-  title.textContent = text
-  return title
+  const title = document.createElement("h1");
+  title.textContent = text;
+  return title;
 }
 
 // · Componente-2: buscador
 export function createSearchInput(): HTMLInputElement {
-  const input = document.createElement("input")
-  input.type = "search"
-  input.placeholder = "🔎 Buscar Producto"
-  return input
+  const input = document.createElement("input");
+  input.type = "search";
+  input.placeholder = "🔎 Buscar Producto";
+  return input;
 }
 
 // · Componente-3: un ul vacio
 export function createList(): HTMLUListElement {
-  return document.createElement("ul")
+  return document.createElement("ul");
 }
 
 // · Componente-4: Recibe un producto y devuelve su li bonito
 export function createProductItem(product: Product): HTMLLIElement {
-  const item = document.createElement("li")
+  const item = document.createElement("li");
 
-  const text = document.createElement("span")
-  text.textContent = `${product.name} --- ${product.price.toFixed(2)} €`
+  const text = document.createElement("span");
+  text.textContent = `${product.name} --- ${product.price.toFixed(2)} €`;
 
-  const button = document.createElement("button")
-  button.type = "button"
-  button.textContent = "Borrar"
+  const button = document.createElement("button");
+  const buttonFav = document.createElement("button");
 
-  item.append(text, button)
-  return item
+  button.type = "button";
+  button.textContent = "Borrar";
+
+  buttonFav.type = "button";
+  buttonFav.textContent = "⭐";
+  item.append(text, button, buttonFav);
+  return item;
+}
+
+// · Componente-5: 
+export function createFooter(name: string): HTMLElement {
+  const footer = document.createElement("footer");
+  footer.textContent = name;
+  footer.style.background = "grey";
+  return footer;
 }
 
 

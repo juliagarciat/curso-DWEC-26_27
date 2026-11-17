@@ -34,7 +34,7 @@ export function createList(): HTMLUListElement {
 // · Funcion 5
 export function createBookForm(): HTMLFormElement {
   const form = document.createElement("form");
-  form.noValidate = true;
+  form.noValidate = true; // esto es para evitar los avisos que por defecto genera HTML5. Nosotros programaremos nuestros propios avisos
 
   const title = document.createElement("input");
   title.name = "title";

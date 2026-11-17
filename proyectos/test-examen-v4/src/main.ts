@@ -25,15 +25,20 @@ const search = createSearchInput();
 // · Formulario
 const form = createBookForm();
 
+const formError = document.createElement("p");
+formError.setAttribute("role", "alert");
+formError.tabIndex = -1;
+form.append(formError);
+
 // · Lista
 const list = createList();
 
 
-/*const counter = document.createElement("p");
-contador.textContent = "Mostrando 10 de 10 · Favoritos: 2";*/
+const counter = document.createElement("p");
+counter.textContent = "Mostrando 10 de 10 · Favoritos: 2";
 
 
-app.append(title, search, form, list);
+app.append(title, search, form, counter, list);
 
 // ----- FUNCIONES -----
 
@@ -58,30 +63,63 @@ function render(): void {
 
 
   // aqui creamos un li por cada libro
+  // · Funcion para añadir favorito
+  // · toogleFavorite
+  function toogleFavorite(id: number): void {
+    state = {
+      ...state,
+      books: state.books.map(b => b.id === id ? { ...b, favorite: !b.favorite } : b),
+    };
+    render();
+  }
+
+
+  // · Funcion para eliminar un libro
+  // · deleteBook
+  function deleteBook(id: number): void {
+    state = {
+      ...state,
+      books: state.books.filter(b => b.id !== id),
+    };
+    render();
+  }
+
 }
 
 render();
 
-// · Funcion para añadir favorito
-// · toogleFavorite
-function toogleFavorite(id: number): void {
-  state = {
-    ...state,
-    books: state.books.map((b) => (b.id === id ? { ...b, favorite: !b.favorite } : b))
+//localStorage.setItem()
+
+// eventos
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault(); // voy a parar la accion del submit por defecto
+  // cogemos la data del formulario
+  const data = new FormData(form);
+  const title = String(data.get("title") ?? "").trim();
+  const author = String(data.get("author") ?? "").trim();
+  const year = Number(data.get("year"));
+  console.log(title, author, year);
+
+  if (title === "") {
+    formError.textContent = "Escribe el titulo del libro";
+    formError.focus();
+    return;
   }
-  render();
-}
 
-
-// · Funcion para eliminar un libro
-// · deleteBook
-function deleteBook(id: number): void {
-  state = {
-    ...state,
-    books: state.books.filter(b => b.id !== id)
+  if (author === "") {
+    formError.textContent = "Escribe el autor del libro";
+    formError.focus();
+    return;
   }
-  render();
-}
 
+  if (year <= 0 || !Number.isInteger(year) || year > 2026) {
+    formError.textContent = "Escribe un año valido";
+    formError.focus();
+    return;
+  }
+
+
+});
 
 

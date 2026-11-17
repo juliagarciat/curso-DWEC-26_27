@@ -35,7 +35,7 @@ const list = createList();
 
 
 const counter = document.createElement("p");
-counter.textContent = "Mostrando 10 de 10 · Favoritos: 2";
+
 
 
 app.append(title, search, form, counter, list);
@@ -60,7 +60,8 @@ function render(): void {
 
   // siempre hay que reemplazar todo el ul (replaceChildren)
   list.replaceChildren(...items);
-
+  const favorites = state.books.filter(book => book.favorite).length;
+  counter.textContent = `Mostrando ${visible.length} de ${state.books.length} · Favoritos: ${favorites}`;
 
   // aqui creamos un li por cada libro
   // · Funcion para añadir favorito

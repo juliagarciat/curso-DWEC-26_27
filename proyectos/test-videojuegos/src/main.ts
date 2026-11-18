@@ -1,5 +1,6 @@
 import { createForm, createGameItem, createList, createSearchInput, createTitle, getElement } from "./components/dom";
 import { initialGames } from "./services/games";
+import { loadGames, saveGames } from "./services/storage";
 import type { AppState } from "./types/game";
 
 const app = getElement("#app", HTMLDivElement);
@@ -13,7 +14,7 @@ const list = createList();
 app.append(title, search, form, resume, list);
 
 let state: AppState = {
-  games: initialGames,
+  games: loadGames() ?? initialGames,
   search: ""
 };
 
@@ -34,6 +35,7 @@ function render(): void {
 
 function onDelete(id: number): void {
   state = { ...state, games: state.games.filter((g) => g.id !== id) };
+  saveGames(state.games);
   render();
 }
 
@@ -41,6 +43,7 @@ function onTogglePlayed(id: number): void {
   state = {
     ...state, games: state.games.map((g) => (g.id === id ? { ...g, played: !g.played } : g)),
   };
+  saveGames(state.games);
   render();
 }
 
@@ -66,6 +69,7 @@ form.addEventListener("submit", (event) => {
     ...state,
     games: [...state.games, { id: newId, title, platform, played: false }]
   };
+  saveGames(state.games);
 
   form.reset();
   render();

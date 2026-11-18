@@ -5,24 +5,14 @@ import "./style.css";
 import { createBookForm, createBookItem, createList, createSearchInput, createTitle, getElement } from "./components/dom";
 import { initialBooks } from "./services/books";
 import type { AppState } from "./types/book";
+import { loadBooks } from "./services/storage";
 
 // ----- DECLARACION DE VARIABLES-----
 // · App
 const app = getElement("#app", HTMLDivElement);
 
-// · Estado
-let state: AppState = {
-  books: initialBooks,
-  search: ""
-};
-
-// · Titulo
 const title = createTitle("Mi biblioteca");
-
-// · Search
 const search = createSearchInput();
-
-// · Formulario
 const form = createBookForm();
 
 const formError = document.createElement("p");
@@ -30,15 +20,19 @@ formError.setAttribute("role", "alert");
 formError.tabIndex = -1;
 form.append(formError);
 
-// · Lista
+const storageMessage = document.createElement("p");
+storageMessage.setAttribute("role", "status");
+
 const list = createList();
-
-
 const counter = document.createElement("p");
 
+app.append(title, search, form, counter, storageMessage, list);
 
-
-app.append(title, search, form, counter, list);
+// ----- 3. ESTADO ÚNICO -----
+let state: AppState = {
+  books: loadBooks() ?? initialBooks,
+  search: "",
+};
 
 // ----- FUNCIONES -----
 
@@ -51,15 +45,19 @@ function render(): void {
   // aqui ponemos cosas para filtrar
   const visible = state.books.filter(
     book =>
-      book.title.toLowerCase().includes(text) || book.author.toLowerCase().includes(text)
+      book.title.toLowerCase().includes(text) ||
+      book.author.toLowerCase().includes(text)
   );
 
   //const items = visible.map((book) => createBookItem(book,toogleFavorite,deleteBook))
-  const items = visible.map(book => createBookItem(book, toogleFavorite, deleteBook));
+  const items = visible.map(book =>
+    createBookItem(book, toogleFavorite, deleteBook)
+  );
 
 
   // siempre hay que reemplazar todo el ul (replaceChildren)
   list.replaceChildren(...items);
+
   const favorites = state.books.filter(book => book.favorite).length;
   counter.textContent = `Mostrando ${visible.length} de ${state.books.length} · Favoritos: ${favorites}`;
 

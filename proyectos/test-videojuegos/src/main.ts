@@ -23,12 +23,52 @@ function render(): void {
     g.title.trim().toLowerCase().includes(text) ||
     g.platform.trim().toLowerCase().includes(text));
 
-  const items = visible.map(g => createGameItem(g, console.log, console.log));
+  const items = visible.map(g => createGameItem(g, onTogglePlayed, onDelete));
 
   list.replaceChildren(...items);
 
-  const played = visible.filter((g) => g.played);
-  resume.textContent = `Jugados ${played.length} de ${visible.length}`;
+  const played = state.games.filter((g) => g.played).length;
+  resume.textContent = `Jugados ${played} de ${state.games.length}`;
 }
+
+
+function onDelete(id: number): void {
+  state = { ...state, games: state.games.filter((g) => g.id !== id) };
+  render();
+}
+
+function onTogglePlayed(id: number): void {
+  state = {
+    ...state, games: state.games.map((g) => (g.id === id ? { ...g, played: !g.played } : g)),
+  };
+  render();
+}
+
+search.addEventListener("input", () => {
+  state = { ...state, search: search.value };
+  render();
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const data = new FormData(form);
+  const title = String(data.get("title") ?? "").trim();
+  const platform = String(data.get("platform") ?? "").trim();
+
+  if (title === "") {
+    return;
+  }
+
+  const newId = Math.max(0, ...state.games.map((g) => g.id)) + 1;
+
+  state = {
+    ...state,
+    games: [...state.games, { id: newId, title, platform, played: false }]
+  };
+
+  form.reset();
+  render();
+});
 
 render();
